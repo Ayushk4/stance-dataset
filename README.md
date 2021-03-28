@@ -84,7 +84,7 @@ Optional Args:
 - wandb: Include `--wandb` flag if you want your runs to be logged to wandb.
 - notarget: Include `--notarget` flag if you want the model to be target oblivious.
 
-### Replicating steps to generate WTWTv2 dataset
+### Steps to replicate generation of WTWTv2 dataset
 
 To replicate steps to generate WTWTv2 dataset from WTWT dataset please run `python3 scripts/generate.py`. This is being released only to reproduce, but not recommended to use, as we intended the released WTWTv2 dataset in `dataset/wtwt_new.json` to serve as the new leaderboard for stance detection task.
 
