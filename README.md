@@ -10,7 +10,7 @@ This repository contains the dataset and baseline accompanying the paper.
 
 ### Abstract
 
-The stance detection task aims at detecting the stance of a tweet or a text with respect to a target. These targets can be named entities or free-form sentences (claims). Though the task involves reasoning of the tweet with respect to a target, we find that it is possible to achieve high accuracy on several publicly available Twitter stance detection datasets without looking at the target sentence. Specifically, a simple tweet classification model achieved human-level performance on the WT-WT dataset and more than two-third accuracy on a variety of other datasets. We carry out an investigation into the existence of biases in such datasets to find the potential spurious correlations of sentiment-stance relations and lexical choice associated with stance category. Furthermore, we propose a new large dataset free of such biases and demonstrate its aptness on the existing stance detection systems. Our empirical findings much scope for research on stance detection and proposes several considerations for creating future stance detection datasets.
+The stance detection task aims at detecting the stance of a tweet or a text for a target. These targets can be named entities or free-form sentences (claims). Though the task involves reasoning of the tweet with respect to a target, we find that it is possible to achieve high accuracy on several publicly available Twitter stance detection datasets without looking at the target sentence. Specifically, a simple tweet classification model achieved human-level performance on the WTWT dataset and more than two-third accuracy on various other datasets. We investigate the existence of biases in such datasets to find the potential spurious correlations of sentiment-stance relations and lexical choice associated with the stance category. Furthermore, we propose a new large dataset free of such biases and demonstrate its aptness on the existing stance detection systems. Our empirical findings show much scope for research on the stance detection task and proposes several considerations for creating future stance detection datasets.
 
 ## Dependencies
 
@@ -45,6 +45,21 @@ Following is the structure of the codebase, in case you wish to play around with
   - `dataset/generate.py`: Generate the WTWTv2 dataset from WTWT dataset
   - `dataset/process.py`: Process the dataset
   - `dataset/wtwt_new.json`: The WTWTv2 dataset.
+- `misc-baselines`: Other baselines
+  - `dataloader.py`: Loader for LSTM+Glove based baselines.
+  - `index_dataset.py`: Indexes the dataset for LSTM based baselines.
+  - `params.py`: Argparsing to enable easy experiments.
+  - `prepare_glove.py`: Prepares the Glove Matrix based on vocab.
+  - `smaller_glove.py`: Filters the words common to Glove and dataset.
+  - `siam-net.py`: The original SiamNet model and training functions.
+  - `BertSiamNet`: Contains SiamNet with Bert features.
+    - `bert_siam-net.py`: The SiamNet model with Bert feats model and training functions.
+    - `bertloader.py`: Dataloader for SiamNet
+    - `bertparams.py`: Argparsing to enable easy experiments.
+  - `TANBert`: Contains TAN model with Bert features.
+    - `bert_tan.py`: The TAN model with Bert feats and training functions.
+    - `bertloader.py`: Dataloader for TAN
+    - `bertparams.py`: Argparsing to enable easy experiments.
 
 
 ### 1. Setting up the codebase and the dependencies.
@@ -84,9 +99,14 @@ Optional Args:
 - wandb: Include `--wandb` flag if you want your runs to be logged to wandb.
 - notarget: Include `--notarget` flag if you want the model to be target oblivious.
 
-### Replicating steps to generate WTWTv2 dataset
+If you want to test out our other baselines mentioned in the paper, then first `cd misc-baselines/BertSiamNet` or `cd misc-baselines/TANBert` and execute `python3 bert_siam-net.py [ARGS]` or `python3 bert_tan.py [ARGS]` with same set of args as above.
 
-To replicate steps to generate WTWTv2 dataset from WTWT dataset please run `python3 scripts/generate.py`. This is being released only to reproduce, but not recommended to use, as we intended the released WTWTv2 dataset in `dataset/wtwt_new.json` to serve as the new leaderboard for stance detection task.
+If you want to execute lstm based baselines, then `cd misc-baselines` and download [glove twitter embeddings](https://nlp.stanford.edu/projects/glove/) inside `misc-baselines/glove`. Execute `python3 smaller_glove.py`, `python3 prepare_glove.py` and `python3 index_dataset.py` with the arguments `--glove_dims` and `--min_occur` denoting the desired glove dimensions and minimum occurence of a token to be added to the vocabulary. Then execute `python3 {model_name}.py [ARGS]`, where `[ARGS]` are same as above with additional argument of `--glove_dims`.
+
+
+### Generating WTWTv2 dataset (not recommended)
+
+To replicate steps to generate WTWTv2 dataset from WTWT dataset please run `python3 scripts/generate.py`. We are releasing this script, but do not recommended to be used. Since the baselines have been evaluation on the released WTWTv2 dataset in `dataset/wtwt_new.json`, and it will serve as a fairer common new leaderboard for stance detection task.
 
 The above step can also be performed after copying (or symlinking) the `scrapped_full` folder from step 2 above to inside the scripts folder along with copying the `wtwt_ids.json` [file](https://github.com/cambridge-wtwt/acl2020-wtwt-tweets) to inside the `scripts` folder.
 
@@ -99,7 +119,9 @@ The above `scripts/generate.py` will generate the WTWTv2 dataset along with the 
 | Model            | CVS_AET F1 | CI_ESRX F1 | ANTM_CI F1 | AET_HUM F1 | Average F1 | Weighted F1 | DIS_FOX F1 |
 | ---------------- | ---------- | ---------- | ---------- | ---------- | ---------- | ----------- | ---------- |
 | Bert (no-target) | 0.161      | 0.258      | 0.297      | 0.340      | 0.264      | 0.260       | 0.163      |
-| Bert (target)    | 0.460      | 0.386      | 0.596      | 0.598      | 0.510      | 0.526       | 0.365      |
+| Bert (target)    | 0.460      | 0.386      | 0.596      | 0.598      | 0.510      | 0.527       | 0.365      |
+| Siam Net         | 0.293      | 0.292      | 0.273      | 0.398      | 0.312      | 0.310       | 0.150      |
+| TAN              | 0.170      | 0.222      | 0.308      | 0.332      | 0.258      | 0.260       | 0.150      |
 | Random guessing  | 0.233      | 0.206      | 0.225      | 0.223      | 0.222      | 0.225       | 0.205      |
 | Majority guessing| 0.145      | 0.198      | 0.181      | 0.177      | 0.175      | 0.171       | 0.169      |
 
