@@ -1,16 +1,18 @@
-# Stance Dataset - WTWTv2
+# Stance Dataset - </i>t</i>WTWT
 
-Stance Detection is not Classification: Promoting the role of Target Entities for Detecting Stance.
+<i>t</i>WT–WT: A Dataset to Assert the Role of Target Entities for Detecting Stance of Tweets
 
-Accepted to appear at NAACL-HLT 2021.
+**Accepted to appear** at NAACL-HLT 2021.
 
 This repository contains the dataset and baseline accompanying the paper.
+
+ArXiv link: `coming-soon`
 
 ## Overview
 
 ### Abstract
 
-The stance detection task aims at detecting the stance of a tweet or a text for a target. These targets can be named entities or free-form sentences (claims). Though the task involves reasoning of the tweet with respect to a target, we find that it is possible to achieve high accuracy on several publicly available Twitter stance detection datasets without looking at the target sentence. Specifically, a simple tweet classification model achieved human-level performance on the WTWT dataset and more than two-third accuracy on various other datasets. We investigate the existence of biases in such datasets to find the potential spurious correlations of sentiment-stance relations and lexical choice associated with the stance category. Furthermore, we propose a new large dataset free of such biases and demonstrate its aptness on the existing stance detection systems. Our empirical findings show much scope for research on the stance detection task and proposes several considerations for creating future stance detection datasets.
+The stance detection task aims at detecting the stance of a tweet or a text for a target. These targets can be named entities or free-form sentences (claims). Though the task involves reasoning of the tweet with respect to a target, we find that it is possible to achieve high accuracy on several publicly available Twitter stance detection datasets without looking at the target sentence. Specifically, a simple tweet classification model achieved human-level performance on the WT–WT dataset and more than two-third accuracy on various other datasets. We investigate the existence of biases in such datasets to find the potential spurious correlations of sentiment-stance relations and lexical choice associated with the stance category. Furthermore, we propose a new large dataset free of such biases and demonstrate its aptness on the existing stance detection systems. Our empirical findings show much scope for research on the stance detection task and proposes several considerations for creating future stance detection datasets.
 
 ![Alt text](https://github.com/Ayushk4/stance-dataset/blob/master/images/image-stance-dataset.jpg)
 
@@ -41,13 +43,13 @@ Following is the structure of the codebase, in case you wish to play around with
 - `params.py`: Argparsing to enable easy experiments.
 - `README.md`: This file :slightly_smiling_face:
 - `.gitignore`: N/A
-- `dataset`: Containing the WTWTv2 datasets
+- `dataset`: Containing the <i>t</i>WT–WT datasets
   - `dataset/process.py`: Process the dataset
   - `dataset/wtwt_new.json`: Process the dataset
-- `scripts`: To re-create the WTWTv2 dataset from WTWT
-  - `dataset/generate.py`: Generate the WTWTv2 dataset from WTWT dataset
+- `scripts`: To re-create the <i>t</i>WT–WT dataset from WT–WT
+  - `dataset/generate.py`: Generate the <i>t</i>WT–WT dataset from WT–WT dataset
   - `dataset/process.py`: Process the dataset
-  - `dataset/wtwt_new.json`: The WTWTv2 dataset.
+  - `dataset/wtwt_new.json`: The<i>t</i>WT–WT dataset.
 - `misc-baselines`: Other baselines
   - `dataloader.py`: Loader for LSTM+Glove based baselines.
   - `index_dataset.py`: Indexes the dataset for LSTM based baselines.
@@ -73,11 +75,11 @@ Following is the structure of the codebase, in case you wish to play around with
 
 ### 2. Setting up the datasets.
 
-This codebase supports the WTWTv2 dataset considered in our paper.
+This codebase supports the <i>t</i>WT–WT dataset considered in our paper.
 
 - Please extract the tweets for the ids in `dataset/wtwt_new.json`. To do this, please register your application on the twitter developer API and download the tweets. Save all the tweets in a single folder at the path `dataset/scrapped_full/` with each file named in the format <tweet_id>.json where tweet_id is a 17-20 digit tweet id.
 
-- Add the desired target sentences for each merger in `dataset/merger2target.json` inside this folder. Similar to the WTWT dataset, we leave it to the user of the dataset to experiments with different target sentences for each merger.
+- Add the desired target sentences for each merger in `dataset/merger2target.json` inside this folder. Similar to the WT–WT dataset, we leave it to the user of the dataset to experiments with different target sentences for each merger.
 
 - The process the dataset by `cd dataset` and then `python3 process.py`. The final processed data will stored in a json format at `dataset/data_new.json`, which will be input to our baseline.
 
@@ -127,13 +129,13 @@ If you want to test out our other baselines mentioned in the paper, then first `
 If you want to execute lstm based baselines, then `cd misc-baselines` and download [glove twitter embeddings](https://nlp.stanford.edu/projects/glove/) inside `misc-baselines/glove`. Execute `python3 smaller_glove.py`, `python3 prepare_glove.py` and `python3 index_dataset.py` with the arguments `--glove_dims` and `--min_occur` denoting the desired glove dimensions and minimum occurence of a token to be added to the vocabulary. Then execute `python3 {model_name}.py [ARGS]`, where `[ARGS]` are same as above with additional argument of `--glove_dims`.
 
 
-### Generating WTWTv2 dataset (not recommended)
+### Generating <i>t</i>WT–WT dataset (not recommended)
 
-To replicate steps to generate WTWTv2 dataset from WTWT dataset please run `python3 scripts/generate.py`. We are releasing this script, but do not recommended to be used. Since the baselines have been evaluation on the released WTWTv2 dataset in `dataset/wtwt_new.json`, and it will serve as a fairer common new leaderboard for stance detection task.
+To replicate steps to generate <i>t</i>WT–WT dataset from WT–WT dataset please run `python3 scripts/generate.py`. We are releasing this script, but do not recommended to be used. Since the baselines have been evaluation on the released <i>t</i>WT–WT dataset in `dataset/wtwt_new.json`, and it will serve as a fairer common new leaderboard for stance detection task.
 
 The above step can also be performed after copying (or symlinking) the `scrapped_full` folder from step 2 above to inside the scripts folder along with copying the `wtwt_ids.json` [file](https://github.com/cambridge-wtwt/acl2020-wtwt-tweets) to inside the `scripts` folder.
 
-The above `scripts/generate.py` will generate the WTWTv2 dataset along with the two intermediate datasets after first and second steps which can be used for ablation study. All three of these can be (pre-)processed using `python3 scripts/process.py` which can be used by the model through specifying the respective dataset_path.
+The above `scripts/generate.py` will generate the <i>t</i>WT–WT dataset along with the two intermediate datasets after first and second steps which can be used for ablation study. All three of these can be (pre-)processed using `python3 scripts/process.py` which can be used by the model through specifying the respective dataset_path.
 
 
 ## Results
@@ -178,7 +180,7 @@ Please Cite our paper if you find the codebase useful:
 
 ```
 @inproceedings{kaushal2020stance,
-          title={Stance Detection is not Classification: Increasing the Role of Target Entities for Detecting Stance},
+          title={tWT–WT: A Dataset to Assert the Role of Target Entities for Detecting Stance of Tweets},
           author={Kaushal, Ayush and Saha, Avirup and Ganguly, Niloy} 
           booktitle={Proceedings of the 2021 Conference of the North {A}merican Chapter of the Association for Computational Linguistics: Human Language Technologies (NAACL-HLT 2021)},
           year={2021}
