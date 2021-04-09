@@ -83,6 +83,26 @@ This codebase supports the WTWTv2 dataset considered in our paper.
 
 ### 3. Training the models.
 
+This codebase supports the four models we experimented in the paper.
+
+- Target Oblivious Bert
+
+<img src="https://github.com/Ayushk4/stance-dataset/blob/master/images/target-oblivious-bert.png" alt="target-oblivious-bert" width="200"/>
+
+- Target Aware Bert
+
+<img src="https://github.com/Ayushk4/stance-dataset/blob/master/images/target-aware-bert.png" alt="target-aware-bert" width="200"/>
+
+- Bert Siamese Network
+
+<img src="https://github.com/Ayushk4/stance-dataset/blob/master/images/siamese-net-bert.png" alt="siamese-net-bert" width="300"/>
+
+- TAN with Bert
+
+<img src="https://github.com/Ayushk4/stance-dataset/blob/master/images/tan-bert.png" alt="tan-bert" width="300"/>
+
+
+
 After following the above steps, move to the basepath for this repository - `cd stance-dataset` and recreate the experiments by executing `python3 train.py [ARGS]` where `[ARGS]` are the following:
 
 Required Args:
